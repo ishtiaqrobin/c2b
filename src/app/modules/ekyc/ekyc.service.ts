@@ -2,6 +2,7 @@ import status from "http-status";
 import { Prisma } from "../../../generated/prisma/client";
 import { EkycStatus, EkycDocType } from "../../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
+import { deleteFileByPublicId } from "../../config/cloudinary.config";
 import AppError from "../../errorHelpers/AppError";
 import { IEkycUpdate, IEkycListQuery } from "./ekyc.interface";
 
@@ -204,6 +205,11 @@ const removeDocument = async (documentId: string, userId: string) => {
       status.BAD_REQUEST,
       "Cannot remove documents from a verified eKYC",
     );
+  }
+
+  // Delete file from Cloudinary
+  if (document.publicId) {
+    await deleteFileByPublicId(document.publicId);
   }
 
   await prisma.ekycDocument.delete({ where: { id: documentId } });

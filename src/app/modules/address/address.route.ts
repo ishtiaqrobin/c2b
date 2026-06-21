@@ -13,7 +13,7 @@ const router = Router();
 // Prefecture listing (public — no auth required)
 router.get(
   "/prefectures",
-  validateRequest(listPrefectureQueryZodSchema),
+  // validateRequest(listPrefectureQueryZodSchema),
   AddressController.listPrefectures,
 );
 

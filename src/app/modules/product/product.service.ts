@@ -1,6 +1,7 @@
 import status from "http-status";
 import { Prisma } from "../../../generated/prisma/client";
 import { prisma } from "../../lib/prisma";
+import { deleteFileByPublicId } from "../../config/cloudinary.config";
 import AppError from "../../errorHelpers/AppError";
 import {
   IProductCreate,
@@ -219,6 +220,14 @@ const updateProduct = async (id: string, payload: IProductUpdate) => {
       });
     }
 
+    // Delete old image from Cloudinary if image is being changed
+    if (
+      (payload.imageUrl !== undefined || payload.imagePublicId !== undefined) &&
+      existing.imagePublicId
+    ) {
+      await deleteFileByPublicId(existing.imagePublicId);
+    }
+
     return tx.product.update({
       where: { id },
       data: {
@@ -257,6 +266,11 @@ const deleteProduct = async (id: string) => {
   });
   if (!existing) {
     throw new AppError(status.NOT_FOUND, "Product not found");
+  }
+
+  // Delete image from Cloudinary
+  if (existing.imagePublicId) {
+    await deleteFileByPublicId(existing.imagePublicId);
   }
 
   return prisma.product.update({

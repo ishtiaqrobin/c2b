@@ -4,6 +4,7 @@ model Banner {
     imageUrl      String
     imagePublicId String?
     linkUrl       String?
+    
     sortOrder     Int       @default(0)
     isActive      Boolean   @default(true)
     isDeleted     Boolean   @default(false)

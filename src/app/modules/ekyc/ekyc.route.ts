@@ -19,7 +19,7 @@ router.get("/my", checkAuth, EkycController.getMyEkyc);
 router.post(
   "/my/documents",
   checkAuth,
-  multerUpload.single("file"),
+  multerUpload("ekyc").single("file"),
   validateRequest(uploadDocumentZodSchema),
   EkycController.uploadDocument,
 );

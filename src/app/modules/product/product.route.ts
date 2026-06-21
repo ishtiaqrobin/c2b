@@ -30,6 +30,18 @@ router.get(
 
 router.get("/slug/:slug", ProductController.getProductBySlug);
 
+// ==================== VARIANT (PUBLIC) ====================
+// NOTE: These must come BEFORE "/:id" below, otherwise Express will match
+// "/variants" and "/variants/:id" as if "variants" were a product :id.
+
+router.get(
+  "/variants",
+  validateQuery(listVariantQueryZodSchema),
+  ProductController.listVariants,
+);
+
+router.get("/variants/:id", ProductController.getVariantById);
+
 router.get("/:id", ProductController.getProductById);
 
 // ==================== PRODUCT (ADMIN) ====================
@@ -58,14 +70,6 @@ router.delete(
 );
 
 // ==================== VARIANT (ADMIN) ====================
-
-router.get(
-  "/variants",
-  validateQuery(listVariantQueryZodSchema),
-  ProductController.listVariants,
-);
-
-router.get("/variants/:id", ProductController.getVariantById);
 
 router.post(
   "/:productId/variants",

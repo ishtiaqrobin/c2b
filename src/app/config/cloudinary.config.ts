@@ -64,26 +64,59 @@ export const uploadFileToCloudinary = (
   });
 };
 
-export const deleteFileFromCloudinary = async (url: string) => {
-  try {
-    const regex = /\/v\d+\/(.+?)(?:\.[a-zA-Z0-9]+)+$/;
+/**
+ * Delete a file from Cloudinary by its URL.
+ * Extracts the public_id from the Cloudinary URL and destroys the resource.
+ * Supports both image and raw (PDF) resource types.
+ */
+export const deleteFileFromCloudinary = async (url: string): Promise<void> => {
+  if (!url) return;
 
+  try {
+    // Cloudinary URL format: https://res.cloudinary.com/{cloud}/image/upload/v1234567/folder/subfolder/file.jpg
+    // We need to extract: folder/subfolder/file (without extension)
+    const regex = /\/v\d+\/(.+?)(?:\.[a-zA-Z0-9]+)?$/;
     const match = url.match(regex);
-    if (match && match[1]) {
+
+    if (match?.[1]) {
       const publicId = match[1];
 
-      await cloudinary.uploader.destroy(publicId, {
+      // Try image first, then raw (for PDFs)
+      const result = await cloudinary.uploader.destroy(publicId, {
         resource_type: "image",
       });
 
-      console.log(`File ${publicId} deleted from Cloudinary.`);
+      if (result.result === "not_found") {
+        await cloudinary.uploader.destroy(publicId, {
+          resource_type: "raw",
+        });
+      }
     }
   } catch (error) {
-    console.log("Error deleting file from Cloudinary:", error);
-    throw new AppError(
-      status.INTERNAL_SERVER_ERROR,
-      "Failed to delete file from Cloudinary",
-    );
+    // Never let Cloudinary cleanup break the main operation.
+    console.error("⚠️  Failed to delete file from Cloudinary:", error);
+  }
+};
+
+/**
+ * Delete a file from Cloudinary by its publicId directly.
+ * Use this when you have the publicId stored in your database.
+ */
+export const deleteFileByPublicId = async (publicId: string): Promise<void> => {
+  if (!publicId) return;
+
+  try {
+    const result = await cloudinary.uploader.destroy(publicId, {
+      resource_type: "image",
+    });
+
+    if (result.result === "not_found") {
+      await cloudinary.uploader.destroy(publicId, {
+        resource_type: "raw",
+      });
+    }
+  } catch (error) {
+    console.error("⚠️  Failed to delete file from Cloudinary:", error);
   }
 };
 
