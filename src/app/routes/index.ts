@@ -5,6 +5,7 @@ import { AdminRoutes } from "../modules/admin/admin.route";
 import { CategoryRoutes } from "../modules/category/category.route";
 import { StoreRoutes } from "../modules/store/store.route";
 import { ProductRoutes } from "../modules/product/product.route";
+import { OrderRoutes } from "../modules/order/order.route";
 
 const router = Router();
 
@@ -14,5 +15,6 @@ router.use("/admins", AdminRoutes);
 router.use("/categories", CategoryRoutes);
 router.use("/stores", StoreRoutes);
 router.use("/products", ProductRoutes);
+router.use("/orders", OrderRoutes);
 
 export const IndexRoutes = router;
