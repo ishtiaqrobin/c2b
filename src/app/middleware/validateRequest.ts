@@ -31,3 +31,22 @@ export const validateRequest =
       next(error);
     }
   };
+
+/** Validates req.query and attaches the parsed result to req.validatedQuery. */
+export const validateQuery =
+  (zodSchema: z.ZodType) =>
+  (req: Request, _res: Response, next: NextFunction) => {
+    try {
+      const parseResult = zodSchema.safeParse(req.query);
+
+      if (!parseResult.success) {
+        return next(parseResult.error);
+      }
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (req as any).validatedQuery = parseResult.data;
+      next();
+    } catch (error) {
+      next(error);
+    }
+  };

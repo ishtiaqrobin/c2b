@@ -43,8 +43,13 @@ enum BuybackMethod {
 }
 
 enum Courier {
-    YAMATO
-    SAGAWA
+    STEADFAST
+    PATHAO
+    REDX
+    PAPERFLY
+    E_DESH
+    SA_PARCEL // S.A. Paribahan
+    SUNDARBAN
 }
 
 enum EkycStatus {

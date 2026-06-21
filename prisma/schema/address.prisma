@@ -3,7 +3,7 @@ model Address {
     userId String
     type   AddressType @default(HOME)
     label  String? // optional friendly name
-
+    
     recipientName   String?
     telephone       String?
     postCode        String
