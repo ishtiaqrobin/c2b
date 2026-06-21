@@ -1,0 +1,16 @@
+model Payment {
+    id        String        @id @default(cuid())
+    orderId   String        @unique
+    method    String // "STORE_CASH", "BANK_TRANSFER", etc.
+    status    PaymentStatus @default(PENDING)
+    amount    Decimal       @db.Decimal(12, 2)
+    currency  String        @default("JPY")
+    paidAt    DateTime?
+    reference String?
+    createdAt DateTime      @default(now())
+    updatedAt DateTime      @updatedAt
+
+    order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+    @@map("payment")
+}

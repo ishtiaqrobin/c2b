@@ -1,0 +1,104 @@
+enum Locale {
+    EN
+    BN
+}
+
+enum UserType {
+    CUSTOMER // sellers using the storefront
+    STAFF // internal users; access governed by RBAC roles
+}
+
+enum AccountType {
+    INDIVIDUAL
+    CORPORATION
+}
+
+enum QualifiedInvoiceStatus {
+    NOT_APPLICABLE
+    TARGET_AUDIENCE
+}
+
+enum Sex {
+    MALE
+    FEMALE
+    OTHER
+}
+
+enum AddressType {
+    HOME
+    SHIPPING
+    RETURN
+    COMPANY
+}
+
+enum ItemCondition {
+    NEW
+    USED
+}
+
+enum BuybackMethod {
+    IN_STORE
+    MAIL_IN
+    CORPORATE
+}
+
+enum Courier {
+    YAMATO
+    SAGAWA
+}
+
+enum EkycStatus {
+    PENDING
+    VERIFIED
+    REJECTED
+}
+
+enum EkycDocType {
+    PASSPORT
+    DRIVING_LICENSE
+    MY_NUMBER
+    RESIDENCE_CARD
+}
+
+enum OrderStatus {
+    PENDING
+    SUBMITTED
+    SHIPPED
+    RECEIVED
+    UNDER_INSPECTION
+    APPROVED
+    REJECTED
+    PAYMENT_PENDING
+    PAID
+    COMPLETED
+    RETURNED
+    CANCELLED
+}
+
+enum PaymentStatus {
+    PENDING
+    PAID
+    FAILED
+}
+
+enum AuditAction {
+    CREATE
+    UPDATE
+    DELETE
+    STATUS_CHANGE
+    LOGIN
+    EKYC_REVIEW
+    PAYMENT_UPDATE
+}
+
+enum NotificationChannel {
+    EMAIL
+    SMS
+    IN_APP
+}
+
+enum NotificationStatus {
+    PENDING
+    SENT
+    FAILED
+}
