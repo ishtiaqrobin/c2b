@@ -2,7 +2,10 @@ import { Router } from "express";
 import { NotificationController } from "./notification.controller";
 import { checkAuth } from "../../middleware/checkAuth";
 import { requirePermission } from "../../middleware/requirePermission";
-import { validateRequest } from "../../middleware/validateRequest";
+import {
+  validateQuery,
+  validateRequest,
+} from "../../middleware/validateRequest";
 import {
   createNotificationZodSchema,
   listNotificationQueryZodSchema,
@@ -14,7 +17,7 @@ const router = Router();
 router.get(
   "/my",
   checkAuth,
-  validateRequest(listNotificationQueryZodSchema),
+  validateQuery(listNotificationQueryZodSchema),
   NotificationController.getMyNotifications,
 );
 
@@ -39,7 +42,7 @@ router.get(
   "/",
   checkAuth,
   requirePermission("notification.manage"),
-  validateRequest(listNotificationQueryZodSchema),
+  validateQuery(listNotificationQueryZodSchema),
   NotificationController.listAllNotifications,
 );
 

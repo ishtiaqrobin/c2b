@@ -50,7 +50,8 @@ const getCart = async (cartId: string) => {
                 select: {
                   id: true,
                   slug: true,
-                  images: true,
+                  imageUrl: true,
+                  imagePublicId: true,
                   category: { select: { id: true, slug: true } },
                 },
               },

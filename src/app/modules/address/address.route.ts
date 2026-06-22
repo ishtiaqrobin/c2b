@@ -1,7 +1,10 @@
 import { Router } from "express";
 import { AddressController } from "./address.controller";
 import { checkAuth } from "../../middleware/checkAuth";
-import { validateRequest } from "../../middleware/validateRequest";
+import {
+  validateQuery,
+  validateRequest,
+} from "../../middleware/validateRequest";
 import {
   createAddressZodSchema,
   updateAddressZodSchema,
@@ -13,7 +16,7 @@ const router = Router();
 // Prefecture listing (public — no auth required)
 router.get(
   "/prefectures",
-  // validateRequest(listPrefectureQueryZodSchema),
+  validateQuery(listPrefectureQueryZodSchema),
   AddressController.listPrefectures,
 );
 
