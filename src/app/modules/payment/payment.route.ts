@@ -2,7 +2,10 @@ import { Router } from "express";
 import { PaymentController } from "./payment.controller";
 import { checkAuth } from "../../middleware/checkAuth";
 import { requirePermission } from "../../middleware/requirePermission";
-import { validateRequest } from "../../middleware/validateRequest";
+import {
+  validateQuery,
+  validateRequest,
+} from "../../middleware/validateRequest";
 import {
   updatePaymentZodSchema,
   listPaymentQueryZodSchema,
@@ -15,7 +18,7 @@ router.get(
   "/",
   checkAuth,
   requirePermission("payment.manage"),
-  validateRequest(listPaymentQueryZodSchema),
+  validateQuery(listPaymentQueryZodSchema),
   PaymentController.listPayments,
 );
 
